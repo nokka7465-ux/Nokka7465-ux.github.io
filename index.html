@@ -505,7 +505,7 @@
   </div>
   <div class="hero-stats">
     <div class="stat-item">
-      <span class="stat-num">2+</span>
+      <span class="stat-num">3+</span>
       <span class="stat-label">公開ツール数</span>
     </div>
     <div class="stat-item">
@@ -549,6 +549,19 @@
       <div class="tool-desc">Google Colab対応・インストール不要。拡張子別にフォルダを自動仕分けするシンプル版。</div>
       <div class="tool-footer">
         <span>os / shutil</span>
+        <span>BOOTH →</span>
+      </div>
+    </a>
+
+    <a href="https://python-tools.booth.pm" target="_blank" class="tool-card">
+      <div class="tool-card-top">
+        <span class="tool-tag tag-python">PYTHON</span>
+        <span class="tool-price">¥500</span>
+      </div>
+      <div class="tool-name">CSV自動集計ツール</div>
+      <div class="tool-desc">CSVを読み込んで商品別・日付別に自動集計。4シート構成のExcelレポートに書き出せる。</div>
+      <div class="tool-footer">
+        <span>pandas / openpyxl</span>
         <span>BOOTH →</span>
       </div>
     </a>
@@ -644,6 +657,61 @@
     </div>
   </div>
 
+  <div class="article-card">
+    <div class="article-meta">
+      <span class="article-tag tag-python">PYTHON</span>
+      <span class="article-date">2025.04.21</span>
+    </div>
+
+    <div class="article-title">PythonとpandasでCSVを自動集計してExcelに書き出す方法</div>
+
+    <div class="article-body">
+
+      <p>
+        毎月CSVデータを手動でExcelにまとめる作業、面倒ではありませんか？<br>
+        pandasを使えばその作業をPythonで自動化できます。
+      </p>
+
+      <hr class="article-divider">
+
+      <h3>pandasとは</h3>
+      <p>
+        pandasはPythonのデータ分析で最もよく使われるライブラリです。
+        ExcelやGoogleスプレッドシートのような表形式のデータを
+        Pythonで簡単に操作できます。
+        SQLの経験がある方には <code>groupby()</code> が
+        <code>GROUP BY</code> と同じ感覚で使えるので特に馴染みやすいです。
+      </p>
+
+      <h3>できること</h3>
+      <p>
+        CSVファイルを読み込んで商品別・カテゴリ別・日付別に自動集計し、
+        4シート構成のExcelレポートとして書き出せます。
+        Google Colabで動くので追加インストールは不要です。
+      </p>
+
+      <h3>使った技術</h3>
+      <p>
+        <code>pandas</code> でCSVの読み込みと集計、
+        <code>openpyxl</code> でExcelへの書き出しを行っています。
+        <code>groupby()</code> と <code>agg()</code> を組み合わせることで
+        複数の集計を一度に処理できます。
+      </p>
+
+      <h3>コードで学べること</h3>
+      <p>
+        DataFrame・CSVの読み書き・groupby()・ExcelWriter・with文など
+        データ分析に必要なPythonの基礎概念をすべてコメントで解説しています。
+        購入してそのまま学習教材として使えます。
+      </p>
+
+      <a href="https://python-tools.booth.pm" target="_blank" class="article-cta">
+        BOOTHで購入する（¥500）→
+      </a>
+
+    </div>
+  </div>
+
 </section>
 
 <section id="profile">
@@ -686,4 +754,3 @@
 
 </body>
 </html>
- 
