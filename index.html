@@ -20,9 +20,9 @@
     --border: rgba(255,255,255,0.11);
     --card: #1e2538;
   }
- 
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
- 
+
   body {
     background: var(--bg);
     color: var(--text);
@@ -30,7 +30,7 @@
     line-height: 1.7;
     overflow-x: hidden;
   }
- 
+
   /* グリッド背景 */
   body::before {
     content: '';
@@ -43,7 +43,7 @@
     pointer-events: none;
     z-index: 0;
   }
- 
+
   /* ナビ */
   nav {
     position: sticky;
@@ -58,16 +58,16 @@
     justify-content: space-between;
     height: 56px;
   }
- 
+
   .nav-logo {
     font-size: 15px;
     font-weight: 900;
     letter-spacing: 0.05em;
     color: var(--accent);
   }
- 
+
   .nav-logo span { color: var(--text2); font-weight: 400; font-size: 12px; margin-left: 8px; }
- 
+
   .nav-links { display: flex; gap: 24px; }
   .nav-links a {
     font-size: 13px;
@@ -76,7 +76,7 @@
     transition: color 0.2s;
   }
   .nav-links a:hover { color: var(--accent); }
- 
+
   /* ヒーロー */
   .hero {
     position: relative;
@@ -89,7 +89,7 @@
     max-width: 900px;
     margin: 0 auto;
   }
- 
+
   .hero-eyebrow {
     font-family: 'Share Tech Mono', monospace;
     font-size: 12px;
@@ -100,7 +100,7 @@
     align-items: center;
     gap: 10px;
   }
- 
+
   .hero-eyebrow::before {
     content: '';
     display: inline-block;
@@ -108,7 +108,7 @@
     height: 1px;
     background: var(--accent);
   }
- 
+
   .hero h1 {
     font-size: clamp(2.8rem, 7vw, 5.5rem);
     font-weight: 900;
@@ -116,14 +116,14 @@
     letter-spacing: -0.02em;
     margin-bottom: 1.5rem;
   }
- 
+
   .hero h1 .line1 { display: block; color: var(--text); }
   .hero h1 .line2 {
     display: block;
     color: transparent;
     -webkit-text-stroke: 1.5px var(--accent);
   }
- 
+
   .hero-desc {
     font-size: 1rem;
     color: var(--text2);
@@ -131,9 +131,9 @@
     margin-bottom: 2.5rem;
     line-height: 1.9;
   }
- 
+
   .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
- 
+
   .btn-primary {
     display: inline-flex;
     align-items: center;
@@ -149,7 +149,7 @@
     transition: opacity 0.2s, transform 0.2s;
   }
   .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
- 
+
   .btn-secondary {
     display: inline-flex;
     align-items: center;
@@ -166,7 +166,7 @@
     transition: border-color 0.2s, transform 0.2s;
   }
   .btn-secondary:hover { border-color: var(--accent); transform: translateY(-1px); }
- 
+
   .hero-stats {
     display: flex;
     gap: 2.5rem;
@@ -175,7 +175,7 @@
     border-top: 1px solid var(--border);
     flex-wrap: wrap;
   }
- 
+
   .stat-item { }
   .stat-num {
     font-family: 'Share Tech Mono', monospace;
@@ -186,7 +186,7 @@
     margin-bottom: 4px;
   }
   .stat-label { font-size: 12px; color: var(--text2); }
- 
+
   /* セクション共通 */
   section {
     position: relative;
@@ -195,34 +195,34 @@
     margin: 0 auto;
     padding: 5rem 2rem;
   }
- 
+
   .section-header {
     display: flex;
     align-items: baseline;
     gap: 16px;
     margin-bottom: 2.5rem;
   }
- 
+
   .section-num {
     font-family: 'Share Tech Mono', monospace;
     font-size: 12px;
     color: var(--accent);
     letter-spacing: 0.1em;
   }
- 
+
   .section-title {
     font-size: 1.6rem;
     font-weight: 900;
     letter-spacing: -0.01em;
   }
- 
+
   /* ツールカード */
   .tools-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 16px;
   }
- 
+
   .tool-card {
     background: var(--card);
     border: 1px solid var(--border);
@@ -235,18 +235,18 @@
     flex-direction: column;
     gap: 10px;
   }
- 
+
   .tool-card:hover {
     border-color: var(--accent);
     transform: translateY(-3px);
   }
- 
+
   .tool-card-top {
     display: flex;
     align-items: center;
     justify-content: space-between;
   }
- 
+
   .tool-tag {
     font-family: 'Share Tech Mono', monospace;
     font-size: 10px;
@@ -254,31 +254,31 @@
     border-radius: 3px;
     letter-spacing: 0.05em;
   }
- 
+
   .tag-python { background: rgba(0,229,160,0.1); color: var(--accent); }
   .tag-game { background: rgba(255,107,53,0.1); color: var(--accent3); }
   .tag-life { background: rgba(0,153,255,0.1); color: var(--accent2); }
   .tag-new { background: rgba(255,255,255,0.05); color: var(--text2); border: 1px solid var(--border); }
- 
+
   .tool-price {
     font-family: 'Share Tech Mono', monospace;
     font-size: 13px;
     color: var(--accent);
   }
- 
+
   .tool-name {
     font-size: 15px;
     font-weight: 700;
     line-height: 1.4;
   }
- 
+
   .tool-desc {
     font-size: 12px;
     color: var(--text2);
     line-height: 1.7;
     flex: 1;
   }
- 
+
   .tool-footer {
     display: flex;
     align-items: center;
@@ -288,13 +288,13 @@
     font-size: 11px;
     color: var(--text2);
   }
- 
+
   /* Coming soon カード */
   .tool-card.coming {
     opacity: 0.45;
     pointer-events: none;
   }
- 
+
   /* プロフィール */
   .profile-box {
     background: var(--card);
@@ -306,7 +306,7 @@
     gap: 2rem;
     align-items: start;
   }
- 
+
   .avatar {
     width: 72px;
     height: 72px;
@@ -320,13 +320,13 @@
     color: #0d0f14;
     flex-shrink: 0;
   }
- 
+
   .profile-name {
     font-size: 1.3rem;
     font-weight: 900;
     margin-bottom: 4px;
   }
- 
+
   .profile-sub {
     font-size: 12px;
     color: var(--accent);
@@ -334,20 +334,20 @@
     margin-bottom: 12px;
     letter-spacing: 0.05em;
   }
- 
+
   .profile-text {
     font-size: 13px;
     color: var(--text2);
     line-height: 1.85;
   }
- 
+
   .skill-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
     margin-top: 14px;
   }
- 
+
   .skill-tag {
     font-family: 'Share Tech Mono', monospace;
     font-size: 11px;
@@ -357,7 +357,7 @@
     border: 1px solid var(--border);
     color: var(--text2);
   }
- 
+
   /* フッター */
   footer {
     position: relative;
@@ -369,20 +369,108 @@
     color: var(--text2);
     font-family: 'Share Tech Mono', monospace;
   }
- 
+
   footer a { color: var(--accent); text-decoration: none; }
- 
+
   /* アニメーション */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
   }
- 
+
   .hero h1 { animation: fadeUp 0.6s ease both; }
   .hero-desc { animation: fadeUp 0.6s 0.1s ease both; }
   .hero-btns { animation: fadeUp 0.6s 0.2s ease both; }
   .hero-stats { animation: fadeUp 0.6s 0.3s ease both; }
- 
+
+  /* 記事セクション */
+  .article-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 2rem;
+    margin-bottom: 16px;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+  }
+
+  .article-tag {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+  }
+
+  .article-date {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 11px;
+    color: var(--text2);
+  }
+
+  .article-title {
+    font-size: 1.3rem;
+    font-weight: 900;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+    letter-spacing: -0.01em;
+  }
+
+  .article-body {
+    font-size: 13px;
+    color: var(--text2);
+    line-height: 2;
+  }
+
+  .article-body h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 1.5rem 0 0.5rem;
+    padding-left: 10px;
+    border-left: 2px solid var(--accent);
+  }
+
+  .article-body p { margin-bottom: 0.8rem; }
+
+  .article-body code {
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 12px;
+    background: rgba(0,229,160,0.08);
+    color: var(--accent);
+    padding: 2px 6px;
+    border-radius: 3px;
+  }
+
+  .article-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--accent);
+    color: #0d0f14;
+    font-family: 'Zen Kaku Gothic New', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 10px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    margin-top: 1.5rem;
+    transition: opacity 0.2s;
+  }
+
+  .article-cta:hover { opacity: 0.85; }
+
+  .article-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 1.5rem 0;
+  }
+
   @media (max-width: 600px) {
     .profile-box { grid-template-columns: 1fr; }
     .nav-links { display: none; }
@@ -390,16 +478,17 @@
 </style>
 </head>
 <body>
- 
+
 <nav>
   <div class="nav-logo">たまるツール工房 <span>by tamal</span></div>
   <div class="nav-links">
     <a href="#tools">ツール一覧</a>
+    <a href="#article">記事</a>
     <a href="#profile">プロフィール</a>
     <a href="https://python-tools.booth.pm" target="_blank">BOOTH</a>
   </div>
 </nav>
- 
+
 <div class="hero">
   <div class="hero-eyebrow">TAMAL'S TOOL FACTORY</div>
   <h1>
@@ -429,15 +518,15 @@
     </div>
   </div>
 </div>
- 
+
 <section id="tools">
   <div class="section-header">
     <span class="section-num">01 //</span>
     <h2 class="section-title">ツール一覧</h2>
   </div>
- 
+
   <div class="tools-grid">
- 
+
     <a href="https://python-tools.booth.pm/items/8231824" target="_blank" class="tool-card">
       <div class="tool-card-top">
         <span class="tool-tag tag-python">PYTHON</span>
@@ -450,7 +539,7 @@
         <span>BOOTH →</span>
       </div>
     </a>
- 
+
     <a href="https://python-tools.booth.pm" target="_blank" class="tool-card">
       <div class="tool-card-top">
         <span class="tool-tag tag-python">PYTHON</span>
@@ -463,7 +552,7 @@
         <span>BOOTH →</span>
       </div>
     </a>
- 
+
     <div class="tool-card coming">
       <div class="tool-card-top">
         <span class="tool-tag tag-game">GAME</span>
@@ -473,7 +562,7 @@
       <div class="tool-desc">データを分析して競輪の予想をサポートするツール。近日公開予定。</div>
       <div class="tool-footer"><span>準備中</span></div>
     </div>
- 
+
     <div class="tool-card coming">
       <div class="tool-card-top">
         <span class="tool-tag tag-life">LIFE</span>
@@ -483,16 +572,86 @@
       <div class="tool-desc">収支を記録・グラフ化する家計管理アプリ。近日公開予定。</div>
       <div class="tool-footer"><span>準備中</span></div>
     </div>
- 
+
   </div>
 </section>
- 
-<section id="profile">
+
+<section id="article">
   <div class="section-header">
     <span class="section-num">02 //</span>
+    <h2 class="section-title">記事</h2>
+  </div>
+
+  <div class="article-card">
+    <div class="article-meta">
+      <span class="article-tag tag-python">PYTHON</span>
+      <span class="article-date">2025.04.21</span>
+    </div>
+
+    <div class="article-title">Pythonでファイル整理を自動化した話｜初心者でも作れるGUIツール</div>
+
+    <div class="article-body">
+
+      <p>
+        デスクトップやダウンロードフォルダにファイルが溜まっていませんか？<br>
+        毎回手動で整理するのが面倒になり、Pythonで自動化ツールを作りました。
+      </p>
+
+      <hr class="article-divider">
+
+      <h3>なぜ作ったのか</h3>
+      <p>
+        エンジニアとして日々コードを書く中で、作業フォルダに
+        PDFや画像・CSVが混在してカオスになることが多くありました。
+        「これをPythonで解決できないか」と思ったのがきっかけです。
+      </p>
+
+      <h3>使った技術</h3>
+      <p>
+        Pythonの標準ライブラリだけで作れるので追加インストールは不要です。
+        <code>os</code> でファイル一覧を取得し、
+        <code>shutil</code> でファイルを移動、
+        <code>tkinter</code> でGUI画面を作成しました。
+      </p>
+
+      <h3>仕組みはシンプル</h3>
+      <p>
+        拡張子とフォルダ名の対応表（辞書型）を用意して、
+        フォルダ内のファイルを1つずつ確認→対応するフォルダに移動するだけです。
+        <code>.jpg</code> なら「画像」フォルダ、
+        <code>.pdf</code> なら「ドキュメント」フォルダへ自動仕分けされます。
+      </p>
+
+      <h3>GUI版のポイント</h3>
+      <p>
+        コマンド操作が苦手な方でも使えるようにtkinterで画面を追加しました。
+        「フォルダを選ぶ」ボタンで対象フォルダを選択し、
+        「整理スタート」を押すだけで完了します。
+        整理の経過がリアルタイムでログ表示されるので安心して使えます。
+      </p>
+
+      <h3>コードにはPython学習用コメントを記載</h3>
+      <p>
+        辞書型・for文・クラス・コールバック関数など
+        Pythonの重要な概念を丁寧なコメントで解説しています。
+        購入してそのままPython学習にも使えます。
+      </p>
+
+      <a href="https://python-tools.booth.pm/items/8231824" target="_blank" class="article-cta">
+        BOOTHで購入する（¥980）→
+      </a>
+
+    </div>
+  </div>
+
+</section>
+
+<section id="profile">
+  <div class="section-header">
+    <span class="section-num">03 //</span>
     <h2 class="section-title">プロフィール</h2>
   </div>
- 
+
   <div class="profile-box">
     <div class="avatar">T</div>
     <div>
@@ -517,14 +676,14 @@
     </div>
   </div>
 </section>
- 
+
 <footer>
   <p>© 2025 たまるツール工房 by tamal ·
     <a href="https://python-tools.booth.pm" target="_blank">BOOTH</a> ·
     <a href="https://x.com/nokka7465" target="_blank">X</a>
   </p>
 </footer>
- 
+
 </body>
 </html>
  
