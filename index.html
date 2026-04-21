@@ -1,529 +1,230 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>たまるツール工房 | Python自動化ツール開発</title>
-<meta name="description" content="金融→エンジニア転身のtamalが作るPython自動化ツール。競輪予想・家計簿・ファイル整理など実用ツールを開発・販売中。">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #161b27;
-    --bg2: #1c2233;
-    --bg3: #222a3e;
-    --accent: #00e5a0;
-    --accent2: #3db8ff;
-    --accent3: #ff7a47;
-    --text: #f0f2f8;
-    --text2: #a0a8bc;
-    --border: rgba(255,255,255,0.11);
-    --card: #1e2538;
-  }
+# ============================================================
+# HTTP / HTTPS 完全理解ガイド
+# ============================================================
+# 【このファイルについて】
+# HTTPとHTTPSの仕組みをPythonコードで実際に体験しながら学びます。
+# Google ColabまたはローカルのPythonで動かしてください。
+#
+# 【必要なライブラリのインストール】
+# pip install requests
+# ============================================================
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-    line-height: 1.7;
-    overflow-x: hidden;
-  }
+# ============================================================
+# PART 1：HTTPとHTTPSの基礎知識
+# ============================================================
+# 【HTTP とは】
+# HyperText Transfer Protocol の略。
+# ブラウザ（クライアント）とサーバーが会話するためのルール（規約）です。
+#
+# 例えるなら「手紙のやり取り」：
+#   あなた（クライアント） →「このページをください」→ サーバー
+#   サーバー              →「はい、どうぞ」        → あなた
+#
+# 【HTTPS とは】
+# HTTP + Security（セキュリティ）の略。
+# HTTPの通信内容を「暗号化」したものです。
+#
+# HTTPとHTTPSの違い：
+#   HTTP  → 手紙の中身が「丸見え」（第三者に盗み見られる可能性あり）
+#   HTTPS → 手紙が「封筒に入って暗号化」（第三者には読めない）
+#
+# GitHubのサイト（nokka7465-ux.github.io）も
+# 「Enforce HTTPS」が有効なので、通信が暗号化されています。
 
-  /* グリッド背景 */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(0,229,160,0.06) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(0,229,160,0.06) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
 
-  /* ナビ */
-  nav {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    background: rgba(22,27,39,0.88);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 56px;
-  }
+# ============================================================
+# PART 2：HTTPリクエストの仕組み
+# ============================================================
+# ブラウザでURLを開くとき、裏側では以下が起きています：
+#
+# 1. DNS解決   … ドメイン名（google.com）をIPアドレスに変換
+# 2. 接続      … クライアントがサーバーに接続
+# 3. リクエスト … 「このページをください」と送信
+# 4. レスポンス … サーバーが「200 OK」とHTMLを返す
+# 5. 表示      … ブラウザがHTMLを解析して画面に表示
+#
+# 【HTTPメソッド（リクエストの種類）】
+# GET    … データを取得する（ページを見る）
+# POST   … データを送信する（フォームの送信・ログイン）
+# PUT    … データを更新する
+# DELETE … データを削除する
+#
+# 【HTTPステータスコード（サーバーからの返事）】
+# 200 OK          … 成功！
+# 301 Moved       … URLが変わった（リダイレクト）
+# 404 Not Found   … ページが見つからない
+# 500 Server Error… サーバー側のエラー
 
-  .nav-logo {
-    font-size: 15px;
-    font-weight: 900;
-    letter-spacing: 0.05em;
-    color: var(--accent);
-  }
 
-  .nav-logo span { color: var(--text2); font-weight: 400; font-size: 12px; margin-left: 8px; }
+# ============================================================
+# PART 3：PythonでHTTPリクエストを実際に送る
+# ============================================================
 
-  .nav-links { display: flex; gap: 24px; }
-  .nav-links a {
-    font-size: 13px;
-    color: var(--text2);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-  .nav-links a:hover { color: var(--accent); }
+import requests  # HTTPリクエストを簡単に送れるライブラリ
+import json      # JSONデータを扱うライブラリ（標準ライブラリ）
 
-  /* ヒーロー */
-  .hero {
-    position: relative;
-    z-index: 1;
-    min-height: 92vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding: 4rem 2rem 2rem;
-    max-width: 900px;
-    margin: 0 auto;
-  }
+print("=" * 50)
+print("PART 3：GETリクエストを送ってみる")
+print("=" * 50)
 
-  .hero-eyebrow {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    color: var(--accent);
-    letter-spacing: 0.15em;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
+# requests.get() でGETリクエストを送ります。
+# ブラウザでURLを開くのと同じ動作をPythonで行います。
+url = "https://httpbin.org/get"  # テスト用のAPIサーバー
 
-  .hero-eyebrow::before {
-    content: '';
-    display: inline-block;
-    width: 32px;
-    height: 1px;
-    background: var(--accent);
-  }
+response = requests.get(url)
 
-  .hero h1 {
-    font-size: clamp(2.8rem, 7vw, 5.5rem);
-    font-weight: 900;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 1.5rem;
-  }
+# レスポンスの中身を確認してみましょう。
+print(f"\nステータスコード: {response.status_code}")  # 200なら成功
+print(f"レスポンスの型:   {type(response)}")
 
-  .hero h1 .line1 { display: block; color: var(--text); }
-  .hero h1 .line2 {
-    display: block;
-    color: transparent;
-    -webkit-text-stroke: 1.5px var(--accent);
-  }
+# response.text でレスポンスの本文（テキスト）を取得できます。
+print(f"\nレスポンス本文（最初の200文字）:")
+print(response.text[:200])
 
-  .hero-desc {
-    font-size: 1rem;
-    color: var(--text2);
-    max-width: 520px;
-    margin-bottom: 2.5rem;
-    line-height: 1.9;
-  }
 
-  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+# ============================================================
+# PART 4：レスポンスヘッダーを見る
+# ============================================================
+# HTTPの通信には「ヘッダー」という付加情報が含まれています。
+# 手紙で例えると「封筒に書いてある宛名・差出人・日付」の部分です。
 
-  .btn-primary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: var(--accent);
-    color: #0d0f14;
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-    font-weight: 700;
-    font-size: 14px;
-    padding: 12px 24px;
-    border-radius: 4px;
-    text-decoration: none;
-    transition: opacity 0.2s, transform 0.2s;
-  }
-  .btn-primary:hover { opacity: 0.85; transform: translateY(-1px); }
+print("\n" + "=" * 50)
+print("PART 4：レスポンスヘッダーを見る")
+print("=" * 50)
 
-  .btn-secondary {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    background: transparent;
-    color: var(--text);
-    font-family: 'Zen Kaku Gothic New', sans-serif;
-    font-weight: 400;
-    font-size: 14px;
-    padding: 12px 24px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    text-decoration: none;
-    transition: border-color 0.2s, transform 0.2s;
-  }
-  .btn-secondary:hover { border-color: var(--accent); transform: translateY(-1px); }
+# response.headers でヘッダー情報を取得できます。
+print("\n主要なヘッダー情報:")
+print(f"  Content-Type : {response.headers.get('Content-Type')}")
+# Content-Type … 返ってきたデータの種類（text/html, application/json など）
 
-  .hero-stats {
-    display: flex;
-    gap: 2.5rem;
-    margin-top: 4rem;
-    padding-top: 2rem;
-    border-top: 1px solid var(--border);
-    flex-wrap: wrap;
-  }
+print(f"  Server       : {response.headers.get('Server')}")
+# Server … どのWebサーバーソフトが動いているか
 
-  .stat-item { }
-  .stat-num {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 1.8rem;
-    color: var(--accent);
-    display: block;
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-  .stat-label { font-size: 12px; color: var(--text2); }
+print(f"  Date         : {response.headers.get('Date')}")
+# Date … レスポンスが生成された日時
 
-  /* セクション共通 */
-  section {
-    position: relative;
-    z-index: 1;
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 5rem 2rem;
-  }
 
-  .section-header {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: 2.5rem;
-  }
+# ============================================================
+# PART 5：JSONデータを扱う（API連携の基本）
+# ============================================================
+# 現代のWebサービスはJSONという形式でデータをやり取りします。
+# 【JSONとは】
+# JavaScript Object Notation の略。
+# Pythonの辞書型（dict）とほぼ同じ形式のデータです。
+# 例：{"name": "tamal", "skill": "Python"}
 
-  .section-num {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 12px;
-    color: var(--accent);
-    letter-spacing: 0.1em;
-  }
+print("\n" + "=" * 50)
+print("PART 5：JSONデータを取得・解析する")
+print("=" * 50)
 
-  .section-title {
-    font-size: 1.6rem;
-    font-weight: 900;
-    letter-spacing: -0.01em;
-  }
+# 無料で使えるJSONプレースホルダーAPIからデータを取得します。
+json_url = "https://jsonplaceholder.typicode.com/todos/1"
+json_response = requests.get(json_url)
 
-  /* ツールカード */
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-    gap: 16px;
-  }
+# response.json() でJSONを自動的にPythonの辞書型に変換できます。
+data = json_response.json()
 
-  .tool-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 1.5rem;
-    text-decoration: none;
-    color: inherit;
-    transition: border-color 0.2s, transform 0.2s;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+print(f"\n取得したJSONデータ: {data}")
+print(f"  ID      : {data['id']}")
+print(f"  タイトル: {data['title']}")
+print(f"  完了状態: {data['completed']}")
 
-  .tool-card:hover {
-    border-color: var(--accent);
-    transform: translateY(-3px);
-  }
 
-  .tool-card-top {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
+# ============================================================
+# PART 6：POSTリクエスト（データを送信する）
+# ============================================================
+# ログインフォームや問い合わせフォームを送信するときに使います。
 
-  .tool-tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 10px;
-    padding: 3px 8px;
-    border-radius: 3px;
-    letter-spacing: 0.05em;
-  }
+print("\n" + "=" * 50)
+print("PART 6：POSTリクエストでデータを送信する")
+print("=" * 50)
 
-  .tag-python { background: rgba(0,229,160,0.1); color: var(--accent); }
-  .tag-game { background: rgba(255,107,53,0.1); color: var(--accent3); }
-  .tag-life { background: rgba(0,153,255,0.1); color: var(--accent2); }
-  .tag-new { background: rgba(255,255,255,0.05); color: var(--text2); border: 1px solid var(--border); }
+post_url = "https://httpbin.org/post"
 
-  .tool-price {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 13px;
-    color: var(--accent);
-  }
+# 送信するデータを辞書型で用意します。
+send_data = {
+    "name": "tamal",
+    "skill": "Python",
+    "message": "HTTPの勉強中！"
+}
 
-  .tool-name {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.4;
-  }
+# requests.post() でPOSTリクエストを送ります。
+# json= を指定するとデータをJSON形式で送信します。
+post_response = requests.post(post_url, json=send_data)
 
-  .tool-desc {
-    font-size: 12px;
-    color: var(--text2);
-    line-height: 1.7;
-    flex: 1;
-  }
+# 返ってきたデータからサーバーが受け取った内容を確認します。
+result = post_response.json()
+print(f"\nサーバーが受け取ったデータ: {result['json']}")
+print(f"ステータスコード: {post_response.status_code}")
 
-  .tool-footer {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-top: 10px;
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--text2);
-  }
 
-  /* Coming soon カード */
-  .tool-card.coming {
-    opacity: 0.45;
-    pointer-events: none;
-  }
+# ============================================================
+# PART 7：HTTPSの暗号化を確認する
+# ============================================================
+# HTTPS通信では「SSL/TLS証明書」という仕組みで通信を暗号化します。
+# requestsライブラリはデフォルトでHTTPS証明書を検証します。
 
-  /* プロフィール */
-  .profile-box {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 2rem;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 2rem;
-    align-items: start;
-  }
+print("\n" + "=" * 50)
+print("PART 7：HTTPS証明書を確認する")
+print("=" * 50)
 
-  .avatar {
-    width: 72px;
-    height: 72px;
-    border-radius: 50%;
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.8rem;
-    font-weight: 900;
-    color: #0d0f14;
-    flex-shrink: 0;
-  }
+https_url = "https://nokka7465-ux.github.io/"
+https_response = requests.get(https_url)
 
-  .profile-name {
-    font-size: 1.3rem;
-    font-weight: 900;
-    margin-bottom: 4px;
-  }
+print(f"\nサイトURL    : {https_url}")
+print(f"ステータス   : {https_response.status_code}")
+print(f"HTTPS使用    : {https_url.startswith('https://')}")
 
-  .profile-sub {
-    font-size: 12px;
-    color: var(--accent);
-    font-family: 'Share Tech Mono', monospace;
-    margin-bottom: 12px;
-    letter-spacing: 0.05em;
-  }
+# verify=True（デフォルト）だとSSL証明書を検証します。
+# verify=False にすると証明書なしでも通信できますが
+# セキュリティ上のリスクがあるため本番では使わないこと。
+print(f"証明書検証   : 有効（デフォルト）")
 
-  .profile-text {
-    font-size: 13px;
-    color: var(--text2);
-    line-height: 1.85;
-  }
 
-  .skill-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 14px;
-  }
+# ============================================================
+# PART 8：エラーハンドリング（例外処理）
+# ============================================================
+# ネットワーク通信は失敗することがあります。
+# try / except でエラーを適切に処理しましょう。
 
-  .skill-tag {
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 11px;
-    padding: 3px 10px;
-    border-radius: 3px;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid var(--border);
-    color: var(--text2);
-  }
+print("\n" + "=" * 50)
+print("PART 8：エラーハンドリング")
+print("=" * 50)
 
-  /* フッター */
-  footer {
-    position: relative;
-    z-index: 1;
-    border-top: 1px solid var(--border);
-    padding: 2rem;
-    text-align: center;
-    font-size: 12px;
-    color: var(--text2);
-    font-family: 'Share Tech Mono', monospace;
-  }
+def safe_get(url):
+    """
+    安全にGETリクエストを送る関数。
+    エラーが起きても処理が止まらないようにします。
+    """
+    try:
+        response = requests.get(url, timeout=5)  # 5秒でタイムアウト
+        response.raise_for_status()              # 4xx/5xxエラーを例外に変換
+        return response
 
-  footer a { color: var(--accent); text-decoration: none; }
+    except requests.exceptions.Timeout:
+        # タイムアウト：サーバーが5秒以内に応答しなかった
+        print(f"タイムアウト: {url}")
+        return None
 
-  /* アニメーション */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
+    except requests.exceptions.ConnectionError:
+        # 接続エラー：URLが間違い or ネットワーク切断
+        print(f"接続エラー: {url}")
+        return None
 
-  .hero h1 { animation: fadeUp 0.6s ease both; }
-  .hero-desc { animation: fadeUp 0.6s 0.1s ease both; }
-  .hero-btns { animation: fadeUp 0.6s 0.2s ease both; }
-  .hero-stats { animation: fadeUp 0.6s 0.3s ease both; }
+    except requests.exceptions.HTTPError as e:
+        # HTTPエラー：404や500などのエラーレスポンス
+        print(f"HTTPエラー: {e}")
+        return None
 
-  @media (max-width: 600px) {
-    .profile-box { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
-  }
-</style>
-</head>
-<body>
+# 存在しないURLでテスト
+print("\n存在しないURLにアクセスしてみます...")
+result = safe_get("https://httpbin.org/status/404")
+if result is None:
+    print("→ エラーを安全にキャッチできました！")
 
-<nav>
-  <div class="nav-logo">たまるツール工房 <span>by tamal</span></div>
-  <div class="nav-links">
-    <a href="#tools">ツール一覧</a>
-    <a href="#profile">プロフィール</a>
-    <a href="https://python-tools.booth.pm" target="_blank">BOOTH</a>
-  </div>
-</nav>
-
-<div class="hero">
-  <div class="hero-eyebrow">TAMAL'S TOOL FACTORY</div>
-  <h1>
-    <span class="line1">作りながら</span>
-    <span class="line2">学ぶ。</span>
-  </h1>
-  <p class="hero-desc">
-    金融機関からエンジニアに転身したtamalが、<br>
-    日々の学びから生まれた実用ツールを開発・販売しています。
-  </p>
-  <div class="hero-btns">
-    <a href="#tools" class="btn-primary">ツールを見る →</a>
-    <a href="https://python-tools.booth.pm" target="_blank" class="btn-secondary">BOOTHショップ ↗</a>
-  </div>
-  <div class="hero-stats">
-    <div class="stat-item">
-      <span class="stat-num">2+</span>
-      <span class="stat-label">公開ツール数</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">¥0</span>
-      <span class="stat-label">初期費用</span>
-    </div>
-    <div class="stat-item">
-      <span class="stat-num">1.5yr</span>
-      <span class="stat-label">エンジニア歴</span>
-    </div>
-  </div>
-</div>
-
-<section id="tools">
-  <div class="section-header">
-    <span class="section-num">01 //</span>
-    <h2 class="section-title">ツール一覧</h2>
-  </div>
-
-  <div class="tools-grid">
-
-    <a href="https://python-tools.booth.pm/items/8231824" target="_blank" class="tool-card">
-      <div class="tool-card-top">
-        <span class="tool-tag tag-python">PYTHON</span>
-        <span class="tool-price">¥980</span>
-      </div>
-      <div class="tool-name">ファイル自動整理ツール GUI版</div>
-      <div class="tool-desc">ボタン1つでフォルダを拡張子別に自動仕分け。Python学習用コメント付きで勉強にも使える。</div>
-      <div class="tool-footer">
-        <span>tkinter / os / shutil</span>
-        <span>BOOTH →</span>
-      </div>
-    </a>
-
-    <a href="https://python-tools.booth.pm" target="_blank" class="tool-card">
-      <div class="tool-card-top">
-        <span class="tool-tag tag-python">PYTHON</span>
-        <span class="tool-price">¥500</span>
-      </div>
-      <div class="tool-name">ファイル自動整理スクリプト</div>
-      <div class="tool-desc">Google Colab対応・インストール不要。拡張子別にフォルダを自動仕分けするシンプル版。</div>
-      <div class="tool-footer">
-        <span>os / shutil</span>
-        <span>BOOTH →</span>
-      </div>
-    </a>
-
-    <div class="tool-card coming">
-      <div class="tool-card-top">
-        <span class="tool-tag tag-game">GAME</span>
-        <span class="tool-tag tag-new">COMING SOON</span>
-      </div>
-      <div class="tool-name">競輪予想ツール</div>
-      <div class="tool-desc">データを分析して競輪の予想をサポートするツール。近日公開予定。</div>
-      <div class="tool-footer"><span>準備中</span></div>
-    </div>
-
-    <div class="tool-card coming">
-      <div class="tool-card-top">
-        <span class="tool-tag tag-life">LIFE</span>
-        <span class="tool-tag tag-new">COMING SOON</span>
-      </div>
-      <div class="tool-name">家計簿アプリ</div>
-      <div class="tool-desc">収支を記録・グラフ化する家計管理アプリ。近日公開予定。</div>
-      <div class="tool-footer"><span>準備中</span></div>
-    </div>
-
-  </div>
-</section>
-
-<section id="profile">
-  <div class="section-header">
-    <span class="section-num">02 //</span>
-    <h2 class="section-title">プロフィール</h2>
-  </div>
-
-  <div class="profile-box">
-    <div class="avatar">T</div>
-    <div>
-      <div class="profile-name">tamal（たまる）</div>
-      <div class="profile-sub">ENGINEER / TOOL CREATOR</div>
-      <div class="profile-text">
-        金融機関での勤務を経て、未経験からエンジニアに転身。<br>
-        現在はSESエンジニアとして働きながら、Python・Cを使った<br>
-        自動化ツールの開発・販売に取り組んでいます。<br><br>
-        「作りながら学ぶ」をモットーに、仕事で使えるツールや<br>
-        生活を便利にするアプリを日々制作中。
-      </div>
-      <div class="skill-tags">
-        <span class="skill-tag">Python</span>
-        <span class="skill-tag">C</span>
-        <span class="skill-tag">SQL</span>
-        <span class="skill-tag">データサイエンス</span>
-        <span class="skill-tag">tkinter</span>
-        <span class="skill-tag">自動化</span>
-        <span class="skill-tag">SES / 1.5yr</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <p>© 2025 たまるツール工房 by tamal ·
-    <a href="https://python-tools.booth.pm" target="_blank">BOOTH</a> ·
-    <a href="https://x.com/nokka7465" target="_blank">X</a>
-  </p>
-</footer>
-
-</body>
-</html>
+# 正常なURLでテスト
+print("\n正常なURLにアクセスしてみます...")
+result = safe_get("https://httpbin.org/status/200")
+if result:
+    print(f"→ 成功！ステータス: {result.status_code}")
